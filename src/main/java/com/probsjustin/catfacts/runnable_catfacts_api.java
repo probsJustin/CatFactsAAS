@@ -10,6 +10,8 @@ import java.net.http.HttpResponse;
 
 public class runnable_catfacts_api implements Runnable{
 	private static String returnObj_catFact = ""; 
+	
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub

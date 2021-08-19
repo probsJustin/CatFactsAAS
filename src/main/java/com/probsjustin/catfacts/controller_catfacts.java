@@ -16,11 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class controller_catfacts {
-	private static String holder_catFact = "";
-	private static String holder_toPhoneNumber = "";
-	private static String holder_fromPhoneNumber = "";
-	private static String holder_debug = "";
-
+	private String holder_catFact = "";
+	private String holder_toPhoneNumber = "";
+	private String holder_fromPhoneNumber = "";
+	private String holder_debug = "";
+	private String holder_fakeResponse = ""; 
+	private String[] holder_realResponse = null; 
 	
 	controller_catfacts(){
 
@@ -74,8 +75,27 @@ public class controller_catfacts {
 		return returnString;
 	}
 	
+	String[] run_sendTextMessage(String func_toPhoneNumber, String func_messageBody, String func_fromPhoneNumber) {
+		String[] returnString = null; 
+		ExecutorService executor = Executors.newSingleThreadExecutor(); 
+		callable_send_text_message temp_callable_send_text_message = new callable_send_text_message(); 
+		Future<String[]> future = executor.submit(temp_callable_send_text_message); 
+		try {
+			returnString = future.get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		executor.shutdown(); 
+		return returnString;
+	}
+	
 	HttpServletResponse parseRequest(HttpServletRequest func_request, HttpServletResponse func_response) {
 		holder_catFact = this.run_catFactCallable(); 
+		
 		Map <String,String> tempMap_toPhoneNumber = checkRequestParameter_Validator(func_request, "toPhoneNumber");
 		Map <String,String> tempMap_fromPhoneNumber = checkRequestParameter_Validator(func_request, "fromPhoneNumber");
 		Map <String,String> tempMap_debug = checkRequestParameter_Validator(func_request, "debug");
@@ -84,8 +104,19 @@ public class controller_catfacts {
 			holder_toPhoneNumber = func_request.getParameter("toPhoneNumber"); 
 			holder_fromPhoneNumber = func_request.getParameter("fromPhoneNumber");
 			holder_debug = func_request.getParameter("debug"); 
-			
 			// this is a success
+			try {
+				this.holder_fakeResponse = this.run_sendFakeTextMessagesCallable(holder_toPhoneNumber, holder_catFact);
+				func_response.getWriter().append(this.holder_fakeResponse);
+				this.holder_realResponse = this.run_sendTextMessage(holder_toPhoneNumber, holder_catFact, holder_fromPhoneNumber);
+				func_response.getWriter().append(this.holder_realResponse.toString());
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 		}else {
 			func_response.setStatus(400);
 		}

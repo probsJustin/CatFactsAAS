@@ -11,9 +11,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
 
 public class callable_send_post_fake_text_message implements Callable<String>{
-	private static String messageBody = "";
-	private static String toNumber = ""; 
-	private static String runnable_output = ""; 
+	private String messageBody = "";
+	private String toNumber = ""; 
+	private String runnable_output = ""; 
 	
 	callable_send_post_fake_text_message(String toNumber, String messageBody){
 		this.messageBody = messageBody; 

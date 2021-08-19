@@ -8,7 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.Callable;
 
-public class runnable_send_text_message implements Callable<String[]>{
+public class callable_send_text_message implements Callable<String[]>{
 	@Override
 	public String[] call() {
 		// TODO Auto-generated method stub

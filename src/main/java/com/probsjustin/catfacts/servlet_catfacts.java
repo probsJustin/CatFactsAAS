@@ -17,7 +17,8 @@ public class servlet_catfacts extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			response = controller_catfacts.parseRequest(request, response); 
+			controller_catfacts temp_controller_catfacts = new controller_catfacts(); 
+			response = temp_controller_catfacts.parseRequest(request, response); 
 		} catch (Exception e){
 			response.setStatus(400);
 			e.printStackTrace();
@@ -26,7 +27,8 @@ public class servlet_catfacts extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			response = controller_catfacts.parseRequest(request, response); 
+			controller_catfacts temp_controller_catfacts = new controller_catfacts(); 
+			response = temp_controller_catfacts.parseRequest(request, response);  
 		} catch (Exception e){
 			response.setStatus(400);
 			e.printStackTrace();

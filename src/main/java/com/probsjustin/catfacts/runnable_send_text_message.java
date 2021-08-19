@@ -6,11 +6,11 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.concurrent.Callable;
 
-public class runnable_send_text_message implements Runnable{
-	private String[] runnable_output = null; 
+public class runnable_send_text_message implements Callable<String[]>{
 	@Override
-	public void run() {
+	public String[] call() {
 		// TODO Auto-generated method stub
 		// This is a GET request and I am pretty sure it wont work - can't test beause twilio account is locked. 
 		
@@ -32,7 +32,7 @@ public class runnable_send_text_message implements Runnable{
 					e.printStackTrace();
 				}
 				String[] returnObject_split = returnObject.toString().split("\"");
-				this.runnable_output = returnObject_split;
+				return returnObject_split;
 	}
 
 }

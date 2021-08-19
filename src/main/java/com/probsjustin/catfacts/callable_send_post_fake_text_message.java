@@ -8,18 +8,19 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.Callable;
 
-public class runnable_send_post_fake_text_message implements Runnable{
+public class callable_send_post_fake_text_message implements Callable<String>{
 	private static String messageBody = "";
 	private static String toNumber = ""; 
 	private static String runnable_output = ""; 
 	
-	runnable_send_post_fake_text_message(String toNumber, String messageBody){
+	callable_send_post_fake_text_message(String toNumber, String messageBody){
 		this.messageBody = messageBody; 
 		this.toNumber = toNumber; 
 	}
 	@Override
-	public void run() {
+	public String call() {
 		String returnObject = null;
 		String fromPhoneNumber = "From=+55555555555";
 		String payloadBody = "Body=";
@@ -40,14 +41,14 @@ public class runnable_send_post_fake_text_message implements Runnable{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			this.runnable_output = "its broken"; 
+			returnObject = "its broken"; 
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			this.runnable_output =  "its broken"; 
+			returnObject = "its broken"; 
 		}
 		
-		this.runnable_output = returnObject; 
+		return returnObject; 
 		
 	}
 	private String encodeValue(String value) {

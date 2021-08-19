@@ -5,15 +5,15 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.concurrent.Callable;
 
 
 
-public class runnable_catfacts_api implements Runnable{
-	private static String returnObj_catFact = ""; 
-	
+public class callable_catfacts_api implements Callable<String>{
+	private String returnObj_catFact = ""; 
 	
 	@Override
-	public void run() {
+	public String call() throws Exception {
 		// TODO Auto-generated method stub
 		String returnObject = ""; 
 	    HttpClient client = HttpClient.newHttpClient();
@@ -34,7 +34,7 @@ public class runnable_catfacts_api implements Runnable{
 		}
 		String[] returnObject_split = returnObject.toString().split("\"");
 		this.returnObj_catFact = returnObject_split[3]; 
-		
+		return this.returnObj_catFact; 
 	}
 
 }

@@ -56,6 +56,24 @@ public class controller_catfacts {
 		return returnString;
 	}
 	
+	String run_sendFakeTextMessagesCallable(String func_toPhoneNumber, String func_messageBody) {
+		String returnString = ""; 
+		ExecutorService executor = Executors.newSingleThreadExecutor(); 
+		callable_send_post_fake_text_message temp_callable_send_post_fake_text_message = new callable_send_post_fake_text_message(func_toPhoneNumber, func_messageBody); 
+		Future<String> future = executor.submit(temp_callable_send_post_fake_text_message);
+		try {
+			returnString = future.get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		executor.shutdown(); 
+		return returnString;
+	}
+	
 	HttpServletResponse parseRequest(HttpServletRequest func_request, HttpServletResponse func_response) {
 		holder_catFact = this.run_catFactCallable(); 
 		Map <String,String> tempMap_toPhoneNumber = checkRequestParameter_Validator(func_request, "toPhoneNumber");
